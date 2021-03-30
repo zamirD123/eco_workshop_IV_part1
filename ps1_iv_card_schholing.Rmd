@@ -1,0 +1,49 @@
+---
+title: "IO & Econometrics workshop - PS1"
+output: html_notebook
+---
+#### Doron Zamir
+
+This is a markdown file created using RStudio.
+
+### Using Packeges
+I used these packages to create the data:
+
+```{r warning= FALSE, message=FALSE}
+library(tidyverse)
+library(renv)
+library(knitr)
+```
+```{r, include=FALSE}
+renv::init()
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Tidy the Data
+### Importing Data
+ 
+I used the data from [David Card's website](https://davidcard.berkeley.edu/data_sets.html) 
+The relevant file is `nls.dat` saved in the `Data` directory.
+
+```{r}
+data <- read.table("Data/nls.dat") %>%
+  as_tibble()
+head(data)
+```
+Since this 
+### Changing col names
+
+Using variable names from `code_bk.txt'
+
+```{r}
+colnames(data) <-(c("id","nearc","nearc4","nearc4a","nearc4b","ed76","ed66  ","age76","daded ","nodaded","momed","nomomed","weight","momdad14 ","sinmom14","step14","reg661","reg662","reg663","reg66","reg665","reg666","reg667","reg668","reg669","south66","work76","work78","lwage7","lwage78","famed","black","smsa76r","smsa78r","reg76r","reg78r","reg80r","smsa66r","wage76","wage78","wage80","noint78","noint80","enroll76","enroll78","enroll80","kww","iq","marsta76","marsta78","marsta80","libcrd14"))
+head(data)
+```
+```{r}
+data %>% ggplot(aes(x = as.integer("lwage76"), y = as.integer("ed76"))) +
+  geom_point()
+```
+
+
+
+
