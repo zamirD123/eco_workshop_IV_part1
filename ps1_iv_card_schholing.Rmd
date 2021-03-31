@@ -4,6 +4,7 @@ author: Doron Zamir
 output: 
   html_document: 
     keep_md: yes
+    df_print: paged
 ---
 This is a markdown file created using RStudio.
 
