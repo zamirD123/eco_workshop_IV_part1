@@ -3,7 +3,7 @@ title: "IO & Econometrics workshop - PS1"
 author: Doron Zamir
 output: 
   html_document: 
-    df_print: paged
+    keep_md: yes
 ---
 This is a markdown file created using RStudio.
 
