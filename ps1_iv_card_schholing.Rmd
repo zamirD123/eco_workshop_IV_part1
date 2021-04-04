@@ -15,6 +15,9 @@ I used these packages to create the data:
 library(tidyverse)
 library(knitr)
 library(magrittr)
+library(MASS)
+library(qwraps2)
+library(gtsummary)
 ```
 ```{r, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
@@ -38,18 +41,41 @@ Using variable names from `code_bk.txt'
 colnames(data) <-(c("id","nearc","nearc4","nearc4a","nearc4b","ed76","ed66  ","age76","daded ","nodaded","momed","nomomed","weight","momdad14 ","sinmom14","step14","reg661","reg662","reg663","reg66","reg665","reg666","reg667","reg668","reg669","south66","work76","work78","lwage7","lwage78","famed","black","smsa76r","smsa78r","reg76r","reg78r","reg80r","smsa66r","wage76","wage78","wage80","noint78","noint80","enroll76","enroll78","enroll80","kww","iq","marsta76","marsta78","marsta80","libcrd14"))
 
 data %<>% mutate_if(is_character,suppressWarnings(as.numeric))
-head(data)
+ 
+data_summary <- data[-1] %>%
+  summarise_all(list(
+    Min = min, 
+    Mean = mean, 
+    Max = max,
+    SD = sd)) %>%
+  pivot_longer(everything(),
+               names_to = c("Var","Stat"),
+               names_sep = "_") %>%
+  pivot_wider(names_from = "Stat") %>% column_to_rownames("Var") 
+data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE) #todo 
 ```
 
 
+
+
+
+
 ```{r}
-data %>% ggplot(aes(ed76,lwage78,color = iq)) + geom_point() +geom_smooth(method = lm)+facet_grid(cols = vars(as_factor(nearc)))
+data %>% ggplot(aes(ed76,lwage78)) +
+  geom_point(aes(
+    color = as_factor(black)),
+    alpha =0.4 ) +
+  geom_smooth(method = lm)+
+  facet_grid(cols = vars(as_factor(nearc)),rows = vars(as_factor(black)))
+
+data %>% ggplot(aes(ed76,lwage78)) + 
+  geom_point(aes(
+    color = as_factor(nearc)),
+    alpha = 0.4)+
+  geom_smooth(method = lm)
+
 ```
-```{r}
-data %>% filter(!is.na(iq)) %>% ggplot() +geom_bar(aes(x = ed76, fill=as_factor(cut_width(iq,30))),position = position_stack(reverse = TRUE)) 
-```
-```{r}
-data %>% filter(!is.na(iq)) %>% ggplot() +geom_bar(aes(x = ed76, fill=as_factor(cut_width(iq,30))),position = position_stack(reverse = TRUE)) +facet_grid(cols = vars(as_factor(nearc))) 
+
 
 ```
 
