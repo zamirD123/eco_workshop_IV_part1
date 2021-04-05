@@ -3661,6 +3661,7 @@ colnames(data) <-(c("id","nearc","nearc4","nearc4a","nearc4b","ed76","ed66  ","a
 
 data %<>% mutate_if(is_character,suppressWarnings(as.numeric))
 <<<<<<< HEAD
+<<<<<<< HEAD
 kable(data)
 ```
 
@@ -7297,6 +7298,9 @@ data <- data %>% mutate(exp762 = exp76 ** 2)
 =======
  
 >>>>>>> parent of 17143c0 (Finishing part 1)
+=======
+ 
+>>>>>>> parent of 17143c0 (Finishing part 1)
 data_summary <- data[-1] %>%
   summarise_all(list(
     Min = min, 
@@ -7307,6 +7311,7 @@ data_summary <- data[-1] %>%
                names_to = c("Var","Stat"),
                names_sep = "_") %>%
   pivot_wider(names_from = "Stat") %>% column_to_rownames("Var") 
+<<<<<<< HEAD
 <<<<<<< HEAD
 data_summary %>% kable()
 ```
@@ -7369,6 +7374,8 @@ data_summary %>% kable()
 |exp76    |     0| 8.949903e+00|      25| 4.215668e+00|
 |exp762   |     0| 9.786770e+01|     625| 8.789053e+01|
 =======
+=======
+>>>>>>> parent of 17143c0 (Finishing part 1)
 data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE)
 ```
 
@@ -7382,8 +7389,13 @@ data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE)
 
 
 
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> parent of 17143c0 (Finishing part 1)
 
 ```r
 data %>% ggplot(aes(ed76,lwage78)) +
