@@ -31,6 +31,7 @@ The relevant file is `nls.dat` saved in the `Data` directory.
 
 ```{r }
 data <- read.table("Data/nls.dat") %>% as_data_frame()
+kable(data)
 ```
 ### Changing col names & type
 
@@ -63,7 +64,7 @@ data_summary <- data[-1] %>%
                names_to = c("Var","Stat"),
                names_sep = "_") %>%
   pivot_wider(names_from = "Stat") %>% column_to_rownames("Var") 
-data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE)  
+data_summary %>% kable()
 ```
 
 ## Plotting
