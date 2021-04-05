@@ -1,11 +1,10 @@
 ---
 title: "IO & Econometrics workshop - PS1"
-author: "Doron Zamir"
-output:
-  html_document:
+author: Doron Zamir
+output: 
+  html_document: 
     keep_md: yes
     df_print: paged
-  pdf_document: default
 ---
 This is a markdown file created using RStudio.
 
@@ -16,8 +15,9 @@ I used these packages to create the data:
 library(tidyverse)
 library(knitr)
 library(magrittr)
-library(AER)
-library(broom)
+library(MASS)
+library(qwraps2)
+library(gtsummary)
 ```
 ```{r, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
@@ -38,22 +38,10 @@ kable(data)
 Using variable names from `code_bk.txt'
 
 ```{r}
-colnames(data) <-(c("id","nearc2","nearc4","nearc4a","nearc4b","ed76","ed66","age76","daded","nodaded","momed","nomomed","weight","momdad14","sinmom14","step14","reg661","reg662","reg663","reg664","reg665","reg666","reg667","reg668","reg669","south66","work76","work78","lwage76","lwage78","famed","black","smsa76r","smsa78r","reg76r","reg78r","reg80r","smsa66r","wage76","wage78","wage80","noint78","noint80","enroll76","enroll78","enroll80","kww","iq","marsta76","marsta78","marsta80","libcrd14"))
+colnames(data) <-(c("id","nearc","nearc4","nearc4a","nearc4b","ed76","ed66  ","age76","daded ","nodaded","momed","nomomed","weight","momdad14 ","sinmom14","step14","reg661","reg662","reg663","reg66","reg665","reg666","reg667","reg668","reg669","south66","work76","work78","lwage7","lwage78","famed","black","smsa76r","smsa78r","reg76r","reg78r","reg80r","smsa66r","wage76","wage78","wage80","noint78","noint80","enroll76","enroll78","enroll80","kww","iq","marsta76","marsta78","marsta80","libcrd14"))
 
 data %<>% mutate_if(is_character,suppressWarnings(as.numeric))
-head(data)
-```
-### Creating new Varibales for experiance
-$$exp76=age76-ed76-6$$
-$$exp762=exp76*exp76$$
-```{r}
-data <- data %>% mutate(exp76 =  age76-ed76 - 6)
-data <- data %>% mutate(exp762 = exp76 ** 2)
-```
-
-### Sumaarise Data
-
-```{r}
+ 
 data_summary <- data[-1] %>%
   summarise_all(list(
     Min = min, 
@@ -64,72 +52,35 @@ data_summary <- data[-1] %>%
                names_to = c("Var","Stat"),
                names_sep = "_") %>%
   pivot_wider(names_from = "Stat") %>% column_to_rownames("Var") 
+<<<<<<< HEAD
 data_summary %>% kable()
+=======
+data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE) #todo 
+>>>>>>> parent of 17143c0 (Finishing part 1)
 ```
 
-## Plotting
+
+
+
 
 
 ```{r}
-data_to_plot <- data %>% 
-  mutate(
-    black = factor(black,labels = c("no","yes")),
-    nearc4=factor(nearc4,labels = c("no","yes")),
-         )
-```
-### Education and lwage
-
-```{r}
-data_to_plot %>% ggplot(aes(ed76,lwage78)) +
+data %>% ggplot(aes(ed76,lwage78)) +
   geom_point(aes(
-    color = nearc4),
-    alpha =0.4 ) +
-  geom_smooth(method = lm)
-```
-
-### Splitting by distance from collage
-
-```{r}
-data_to_plot %>% ggplot(aes(ed76,lwage78)) +
-  geom_point(aes(
-    color = black),
+    color = as_factor(black)),
     alpha =0.4 ) +
   geom_smooth(method = lm)+
-  facet_grid(cols = vars(nearc4))
-```
+  facet_grid(cols = vars(as_factor(nearc)),rows = vars(as_factor(black)))
 
-### Histogram of ed76
-
-```{r}
-data_to_plot %>% ggplot(aes(ed76)) + 
-  geom_bar(aes(
-    fill = black)) + 
-  facet_grid(row = vars(nearc4))
+data %>% ggplot(aes(ed76,lwage78)) + 
+  geom_point(aes(
+    color = as_factor(nearc)),
+    alpha = 0.4)+
+  geom_smooth(method = lm)
 
 ```
 
-## Estimating a model
-### OLS
-$$ lwage78 = \alpha \cdot ed76 + \beta \cdot X  + u$$
 
-I used model #2 from Card's paper 
-```{r}
-ols_model <- data %>% lm(lwage78~ed76 + exp76 +exp762+smsa76r+ reg76r+smsa66r+              
-+reg662+reg663+reg664+reg665+reg666+reg667+reg668+reg669, data = .)
-kable(tidy(ols_model))
 ```
 
-### 2SLS
-
-$$ lwage78 = \alpha \cdot (\delta \cdot nearc4 + v) + \beta \cdot X  + u$$
-```{r}
-IV_model <- data %>% ivreg(lwage78~ed76 + exp76 +exp762+smsa76r+reg76r+smsa66r+reg662+reg663+reg664+reg665+reg666+reg667+reg668+reg669|exp76 +exp762+smsa76r+reg76r+smsa66r+reg662+reg663+reg664+reg665+reg666+reg667+reg668+reg669 + nearc4, data = .)
-kable(tidy(IV_model))
-```
-
-
-I used a standard model of wage as function of education, controlling experince ($ exp^2) and using panel data for race, region of living, etc.
-
-For IV, I used procimity to collage (as card did). It sounds like a reasnble IV as it is corelated with education, but it can fail. 
-It can effect wage and earnings in more ways the just throw education: it can effect the quality of education, the enveirmont a perso grows in, etc.
-
+data
