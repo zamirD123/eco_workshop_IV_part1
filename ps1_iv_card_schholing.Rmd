@@ -53,11 +53,7 @@ data_summary <- data[-1] %>%
                names_sep = "_") %>%
   pivot_wider(names_from = "Stat") %>% column_to_rownames("Var") 
 <<<<<<< HEAD
-<<<<<<< HEAD
 data_summary %>% kable()
-=======
-data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE) #todo 
->>>>>>> parent of 17143c0 (Finishing part 1)
 =======
 data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE) #todo 
 >>>>>>> parent of 17143c0 (Finishing part 1)
