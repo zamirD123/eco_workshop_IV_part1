@@ -31,7 +31,6 @@ The relevant file is `nls.dat` saved in the `Data` directory.
 
 ```{r }
 data <- read.table("Data/nls.dat") %>% as_data_frame()
-head(data)
 ```
 ### Changing col names & type
 
