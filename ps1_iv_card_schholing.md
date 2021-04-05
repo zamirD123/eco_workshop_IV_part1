@@ -1,10 +1,11 @@
 ---
 title: "IO & Econometrics workshop - PS1"
-author: Doron Zamir
-output: 
-  html_document: 
+author: "Doron Zamir"
+output:
+  html_document:
     keep_md: yes
     df_print: paged
+  pdf_document: default
 ---
 This is a markdown file created using RStudio.
 
@@ -16,9 +17,8 @@ I used these packages to create the data:
 library(tidyverse)
 library(knitr)
 library(magrittr)
-library(MASS)
-library(qwraps2)
-library(gtsummary)
+library(AER)
+library(broom)
 ```
 
 
@@ -3657,10 +3657,9 @@ Using variable names from `code_bk.txt'
 
 
 ```r
-colnames(data) <-(c("id","nearc","nearc4","nearc4a","nearc4b","ed76","ed66  ","age76","daded ","nodaded","momed","nomomed","weight","momdad14 ","sinmom14","step14","reg661","reg662","reg663","reg66","reg665","reg666","reg667","reg668","reg669","south66","work76","work78","lwage7","lwage78","famed","black","smsa76r","smsa78r","reg76r","reg78r","reg80r","smsa66r","wage76","wage78","wage80","noint78","noint80","enroll76","enroll78","enroll80","kww","iq","marsta76","marsta78","marsta80","libcrd14"))
+colnames(data) <-(c("id","nearc2","nearc4","nearc4a","nearc4b","ed76","ed66","age76","daded","nodaded","momed","nomomed","weight","momdad14","sinmom14","step14","reg661","reg662","reg663","reg664","reg665","reg666","reg667","reg668","reg669","south66","work76","work78","lwage76","lwage78","famed","black","smsa76r","smsa78r","reg76r","reg78r","reg80r","smsa66r","wage76","wage78","wage80","noint78","noint80","enroll76","enroll78","enroll80","kww","iq","marsta76","marsta78","marsta80","libcrd14"))
 
 data %<>% mutate_if(is_character,suppressWarnings(as.numeric))
-<<<<<<< HEAD
 kable(data)
 ```
 
@@ -7294,9 +7293,6 @@ data <- data %>% mutate(exp762 = exp76 ** 2)
 
 
 ```r
-=======
- 
->>>>>>> parent of 17143c0 (Finishing part 1)
 data_summary <- data[-1] %>%
   summarise_all(list(
     Min = min, 
@@ -7307,7 +7303,6 @@ data_summary <- data[-1] %>%
                names_to = c("Var","Stat"),
                names_sep = "_") %>%
   pivot_wider(names_from = "Stat") %>% column_to_rownames("Var") 
-<<<<<<< HEAD
 data_summary %>% kable()
 ```
 
@@ -7368,45 +7363,121 @@ data_summary %>% kable()
 |libcrd14 |    NA|           NA|      NA|           NA|
 |exp76    |     0| 8.949903e+00|      25| 4.215668e+00|
 |exp762   |     0| 9.786770e+01|     625| 8.789053e+01|
-=======
-data_summary %>% format(scientific = FALSE, digits = 2,trim = TRUE)
-```
 
-<div data-pagedtable="false">
-  <script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Min"],"name":[1],"type":["I<chr>"],"align":["right"]},{"label":["Mean"],"name":[2],"type":["I<chr>"],"align":["right"]},{"label":["Max"],"name":[3],"type":["I<chr>"],"align":["right"]},{"label":["SD"],"name":[4],"type":["I<chr>"],"align":["right"]}],"data":[{"1":"0","2":"0.432","3":"1","4":"0.50","_rn_":"nearc"},{"1":"0","2":"0.678","3":"1","4":"0.47","_rn_":"nearc4"},{"1":"0","2":"0.492","3":"1","4":"0.50","_rn_":"nearc4a"},{"1":"0","2":"0.186","3":"1","4":"0.39","_rn_":"nearc4b"},{"1":"0","2":"13.225","3":"18","4":"2.75","_rn_":"ed76"},{"1":"0","2":"10.743","3":"18","4":"2.46","_rn_":"ed66"},{"1":"24","2":"28.175","3":"34","4":"3.17","_rn_":"age76"},{"1":"0","2":"10.003","3":"18","4":"3.30","_rn_":"daded"},{"1":"0","2":"0.224","3":"1","4":"0.42","_rn_":"nodaded"},{"1":"0","2":"10.342","3":"18","4":"3.03","_rn_":"momed"},{"1":"0","2":"0.114","3":"1","4":"0.32","_rn_":"nomomed"},{"1":"75607","2":"320318.351","3":"1752340","4":"168006.76","_rn_":"weight"},{"1":"0","2":"0.792","3":"1","4":"0.41","_rn_":"momdad14"},{"1":"0","2":"0.100","3":"1","4":"0.30","_rn_":"sinmom14"},{"1":"0","2":"0.038","3":"1","4":"0.19","_rn_":"step14"},{"1":"0","2":"0.045","3":"1","4":"0.21","_rn_":"reg661"},{"1":"0","2":"0.155","3":"1","4":"0.36","_rn_":"reg662"},{"1":"0","2":"0.194","3":"1","4":"0.40","_rn_":"reg663"},{"1":"0","2":"0.069","3":"1","4":"0.25","_rn_":"reg66"},{"1":"0","2":"0.210","3":"1","4":"0.41","_rn_":"reg665"},{"1":"0","2":"0.093","3":"1","4":"0.29","_rn_":"reg666"},{"1":"0","2":"0.110","3":"1","4":"0.31","_rn_":"reg667"},{"1":"0","2":"0.031","3":"1","4":"0.17","_rn_":"reg668"},{"1":"0","2":"0.094","3":"1","4":"0.29","_rn_":"reg669"},{"1":"0","2":"0.413","3":"1","4":"0.49","_rn_":"south66"},{"1":"0","2":"0.835","3":"1","4":"0.37","_rn_":"work76"},{"1":"0","2":"0.735","3":"1","4":"0.44","_rn_":"work78"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"lwage7"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"lwage78"},{"1":"1","2":"5.913","3":"9","4":"2.65","_rn_":"famed"},{"1":"0","2":"0.230","3":"1","4":"0.42","_rn_":"black"},{"1":"0","2":"0.695","3":"1","4":"0.46","_rn_":"smsa76r"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"smsa78r"},{"1":"0","2":"0.400","3":"1","4":"0.49","_rn_":"reg76r"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"reg78r"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"reg80r"},{"1":"0","2":"0.643","3":"1","4":"0.48","_rn_":"smsa66r"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"wage76"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"wage78"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"wage80"},{"1":"0","2":"0.081","3":"1","4":"0.27","_rn_":"noint78"},{"1":"0","2":"0.107","3":"1","4":"0.31","_rn_":"noint80"},{"1":"0","2":"0.095","3":"1","4":"0.29","_rn_":"enroll76"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"enroll78"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"enroll80"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"kww"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"iq"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"marsta76"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"marsta78"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"marsta80"},{"1":"__NA__","2":"__NA__","3":"__NA__","4":"__NA__","_rn_":"libcrd14"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
->>>>>>> parent of 17143c0 (Finishing part 1)
-
-
-
-
+## Plotting
 
 
 
 ```r
-data %>% ggplot(aes(ed76,lwage78)) +
+data_to_plot <- data %>% 
+  mutate(
+    black = factor(black,labels = c("no","yes")),
+    nearc4=factor(nearc4,labels = c("no","yes")),
+         )
+```
+### Education and lwage
+
+
+```r
+data_to_plot %>% ggplot(aes(ed76,lwage78)) +
   geom_point(aes(
-    color = as_factor(black)),
+    color = nearc4),
     alpha =0.4 ) +
-  geom_smooth(method = lm)+
-  facet_grid(cols = vars(as_factor(nearc)),rows = vars(as_factor(black)))
-```
-
-![](ps1_iv_card_schholing_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
-
-```r
-data %>% ggplot(aes(ed76,lwage78)) + 
-  geom_point(aes(
-    color = as_factor(nearc)),
-    alpha = 0.4)+
   geom_smooth(method = lm)
 ```
 
-![](ps1_iv_card_schholing_files/figure-html/unnamed-chunk-5-2.png)<!-- -->
+![](ps1_iv_card_schholing_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
+### Splitting by distance from collage
 
 
+```r
+data_to_plot %>% ggplot(aes(ed76,lwage78)) +
+  geom_point(aes(
+    color = black),
+    alpha =0.4 ) +
+  geom_smooth(method = lm)+
+  facet_grid(cols = vars(nearc4))
 ```
 
-data
+![](ps1_iv_card_schholing_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
+### Histogram of ed76
+
+
+```r
+data_to_plot %>% ggplot(aes(ed76)) + 
+  geom_bar(aes(
+    fill = black)) + 
+  facet_grid(row = vars(nearc4))
+```
+
+![](ps1_iv_card_schholing_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+## Estimating a model
+### OLS
+$$ lwage78 = \alpha \cdot ed76 + \beta \cdot X  + u$$
+
+I used model #2 from Card's paper 
+
+```r
+ols_model <- data %>% lm(lwage78~ed76 + exp76 +exp762+smsa76r+ reg76r+smsa66r+              
++reg662+reg663+reg664+reg665+reg666+reg667+reg668+reg669, data = .)
+kable(tidy(ols_model))
+```
+
+
+
+|term        |   estimate| std.error|  statistic|   p.value|
+|:-----------|----------:|---------:|----------:|---------:|
+|(Intercept) |  4.7555341| 0.0824573| 57.6726702| 0.0000000|
+|ed76        |  0.0778239| 0.0038744| 20.0865331| 0.0000000|
+|exp76       |  0.0710414| 0.0073298|  9.6920978| 0.0000000|
+|exp762      | -0.0021642| 0.0003494| -6.1947749| 0.0000000|
+|smsa76r     |  0.1493874| 0.0222527|  6.7132142| 0.0000000|
+|reg76r      | -0.0977106| 0.0291096| -3.3566420| 0.0008002|
+|smsa66r     |  0.0069889| 0.0216880|  0.3222488| 0.7472899|
+|reg662      |  0.0794742| 0.0389442|  2.0407198| 0.0413786|
+|reg663      |  0.1096911| 0.0379474|  2.8906086| 0.0038766|
+|reg664      |  0.0148938| 0.0451717|  0.3297151| 0.7416416|
+|reg665      | -0.0118675| 0.0448938| -0.2643466| 0.7915336|
+|reg666      |  0.0272414| 0.0489813|  0.5561604| 0.5781486|
+|reg667      |  0.0289232| 0.0485522|  0.5957131| 0.5514183|
+|reg668      | -0.0069862| 0.0550232| -0.1269678| 0.8989756|
+|reg669      |  0.1043800| 0.0419997|  2.4852578| 0.0130076|
+
+### 2SLS
+
+$$ lwage78 = \alpha \cdot (\delta \cdot nearc4 + v) + \beta \cdot X  + u$$
+
+```r
+IV_model <- data %>% ivreg(lwage78~ed76 + exp76 +exp762+smsa76r+reg76r+smsa66r+reg662+reg663+reg664+reg665+reg666+reg667+reg668+reg669|exp76 +exp762+smsa76r+reg76r+smsa66r+reg662+reg663+reg664+reg665+reg666+reg667+reg668+reg669 + nearc4, data = .)
+kable(tidy(IV_model))
+```
+
+
+
+|term        |   estimate| std.error|  statistic|   p.value|
+|:-----------|----------:|---------:|----------:|---------:|
+|(Intercept) |  4.6448679| 1.0660373|  4.3571344| 0.0000137|
+|ed76        |  0.0843520| 0.0628153|  1.3428567| 0.1794345|
+|exp76       |  0.0738043| 0.0275303|  2.6808421| 0.0073897|
+|exp762      | -0.0021724| 0.0003583| -6.0632186| 0.0000000|
+|smsa76r     |  0.1465746| 0.0350071|  4.1869963| 0.0000292|
+|reg76r      | -0.0980351| 0.0292916| -3.3468673| 0.0008288|
+|smsa66r     |  0.0060301| 0.0235729|  0.2558053| 0.7981212|
+|reg662      |  0.0817170| 0.0445227|  1.8353996| 0.0665596|
+|reg663      |  0.1112795| 0.0409182|  2.7195607| 0.0065799|
+|reg664      |  0.0152388| 0.0453174|  0.3362676| 0.7366960|
+|reg665      | -0.0064019| 0.0690874| -0.0926636| 0.9261779|
+|reg666      |  0.0344006| 0.0844349|  0.4074217| 0.6837315|
+|reg667      |  0.0353821| 0.0787891|  0.4490729| 0.6534161|
+|reg668      | -0.0097824| 0.0612538| -0.1597031| 0.8731272|
+|reg669      |  0.1041498| 0.0420806|  2.4750089| 0.0133860|
+
+
+I used a standard model of wage as function of education, controlling experince ($ exp^2) and using panel data for race, region of living, etc.
+
+For IV, I used procimity to collage (as card did). It sounds like a reasnble IV as it is corelated with education, but it can fail. 
+It can effect wage and earnings in more ways the just throw education: it can effect the quality of education, the enveirmont a perso grows in, etc.
+
